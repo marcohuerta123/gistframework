@@ -52,3 +52,9 @@ And(~/I login to Gist with username (.*) and password (.*)/) { String username, 
     loginButton.click()
 
 }
+
+And(~/I create a new Gist with description (.*)/) { String description ->
+
+    WebElement createGist = driver.findElement(By.xpath("//*[contains(text(),'New gist')]"))
+    createGist.click()
+}

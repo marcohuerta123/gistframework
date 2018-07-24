@@ -39,10 +39,16 @@ When(~/I visit Gist/) { ->
     driver = webClient.visitGist()
 }
 
-And(~/I login to Gist/) { ->
-    WebElement login = driver.findElements(By.partialLinkText("Sign in"))
-    login.click()
+And(~/I login to Gist with username (.*) and password (.*)/) { String username, String password ->
 
-    //webSession.findElements(By.id("login_field")).click
-    //webSession.findElements(By.id("password")).click
+    WebElement loginField = driver.findElement(By.id("login_field"))
+    loginField.sendKeys(username)
+
+    WebElement passwordField = driver.findElement(By.id("password"))
+    passwordField.sendKeys(password)
+
+
+    WebElement loginButton = driver.findElement(By.name("commit"))
+    loginButton.click()
+
 }

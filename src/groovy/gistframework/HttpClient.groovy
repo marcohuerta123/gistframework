@@ -1,7 +1,9 @@
 package gistframework;
 
 import groovyx.net.http.HTTPBuilder
+import groovy.json.JsonSlurper
 import static groovyx.net.http.Method.GET
+import static groovyx.net.http.Method.POST
 import static groovyx.net.http.ContentType.JSON
 import org.yaml.snakeyaml.Yaml
 
@@ -13,7 +15,7 @@ class HttpRequest {
     private final static String MYURL = "https://api.github.com"
 
     //Sends an http request
-    private send(method, path, query) {
+    private send(method, path, query, bodyContent) {
 
         def http = new HTTPBuilder(MYURL)
 
@@ -24,7 +26,11 @@ class HttpRequest {
             uri.path = path
             uri.query = query
             headers."User-agent" = "ActiveMeasure Test"
-            headers."Authorization" = PROPERTIES["Authorization"]
+            headers."Authorization" = "token " + PROPERTIES["Authorization"]
+
+            if (method == POST) {
+                body = bodyContent
+            }
 
             //If response is successful do this
             response.success = { resp, json ->
@@ -39,10 +45,14 @@ class HttpRequest {
     }
 
     public getGists() {
-        return(send(GET, "/gists", [:]))
+        return(send(GET, "/gists", [:], [:]))
     }
 
-    public addGist() {
+    public addGist(description, isPublic)  {
 
+        def slurper = new groovy.json.JsonSlurper()
+        def fileObject = slurper.parseText('{"helloworld.rb": {"content": "Run `ruby hello_world.rb` to print Hello World"}}')
+
+        return(send(POST, "/gists", [:], [description:description, public: isPublic, files: fileObject]))
     }
 }

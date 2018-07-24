@@ -29,3 +29,7 @@ Given(~/I don't have an API session/) { ->
 When(~/I call the gists endpoint/) { ->
     (response, body) = session.getGists()
 }
+
+When(~/I post a new gist called (.*) where public is (.*)/) { String description, String isPublic ->
+    (response, body) = session.addGist(description, isPublic)
+}

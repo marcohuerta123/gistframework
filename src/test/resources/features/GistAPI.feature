@@ -14,3 +14,11 @@ Feature: Make several calls to the Gist API
     When I call the gists endpoint
     And My response is a 200
     Then Then I edit result number 1 with the following description This is my new description text
+    And My response is a 200
+    
+  Scenario: Delete a Gist
+    Given I don't have an API session
+    When I call the gists endpoint
+    And My response is a 200
+    Then I will delete result number 1 from the response
+    And My response is a 204

@@ -42,3 +42,8 @@ Then(~/Then I edit result number (.*) with the following description (.*) text/)
     def gistId = body[entry - 1]["id"]
     (response, body) = session.editGist(gistId, description)
 }
+
+Then(~/I will delete result number (.*) from the response/) { int entry->
+    def gistId = body[entry - 1]["id"]
+    (response, body) = session.deleteGist(gistId)
+}

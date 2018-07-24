@@ -5,6 +5,7 @@ import groovy.json.JsonSlurper
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.Method.POST
 import static groovyx.net.http.Method.PATCH
+import static groovyx.net.http.Method.DELETE
 import static groovyx.net.http.ContentType.JSON
 import org.yaml.snakeyaml.Yaml
 
@@ -70,5 +71,11 @@ class HttpRequest {
 
         return(send(PATCH, path, [:], [description:description, files: fileObject]))
 
+    }
+
+    public deleteGist(id) {
+        def path = "/gists/" + id
+
+        return(send(DELETE, path, [:], [:]))
     }
 }

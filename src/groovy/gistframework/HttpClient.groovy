@@ -4,6 +4,7 @@ import groovyx.net.http.HTTPBuilder
 import groovy.json.JsonSlurper
 import static groovyx.net.http.Method.GET
 import static groovyx.net.http.Method.POST
+import static groovyx.net.http.Method.PATCH
 import static groovyx.net.http.ContentType.JSON
 import org.yaml.snakeyaml.Yaml
 
@@ -28,7 +29,11 @@ class HttpRequest {
             headers."User-agent" = "ActiveMeasure Test"
             headers."Authorization" = "token " + PROPERTIES["Authorization"]
 
-            if (method == POST) {
+            if (method == POST){
+                body = bodyContent
+            }
+
+            if (method == PATCH){
                 body = bodyContent
             }
 
@@ -45,7 +50,7 @@ class HttpRequest {
     }
 
     public getGists() {
-        return(send(GET, "/gists", [:], [:]))
+        return(send(GET, "/users/marcohuerta123/gists", [:], [:]))
     }
 
     public addGist(description, isPublic)  {
@@ -54,5 +59,16 @@ class HttpRequest {
         def fileObject = slurper.parseText('{"helloworld.rb": {"content": "Run `ruby hello_world.rb` to print Hello World"}}')
 
         return(send(POST, "/gists", [:], [description:description, public: isPublic, files: fileObject]))
+    }
+
+    public editGist(id, description) {
+
+        def slurper = new groovy.json.JsonSlurper()
+        def fileObject = slurper.parseText('{"helloworld.rb": {"content": "Run `ruby hello_world.rb` to print Hello World Modified"}}')
+
+        def path = "/gists/" + id
+
+        return(send(PATCH, path, [:], [description:description, files: fileObject]))
+
     }
 }

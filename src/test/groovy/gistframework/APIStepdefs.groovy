@@ -33,3 +33,12 @@ When(~/I call the gists endpoint/) { ->
 When(~/I post a new gist called (.*) where public is (.*)/) { String description, String isPublic ->
     (response, body) = session.addGist(description, isPublic)
 }
+
+And(~/My response is a (.*)/) { int responseCode ->
+    response.status == responseCode
+}
+
+Then(~/Then I edit result number (.*) with the following description (.*) text/) { int entry, String description ->
+    def gistId = body[entry - 1]["id"]
+    (response, body) = session.editGist(gistId, description)
+}

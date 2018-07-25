@@ -57,4 +57,14 @@ And(~/I create a new Gist with description (.*)/) { String description ->
 
     WebElement createGist = driver.findElement(By.xpath("//*[contains(text(),'New gist')]"))
     createGist.click()
+
+    WebElement fileNameField = driver.findElement(By.name("gist[contents][][name]"))
+    fileNameField.sendKeys("examplefile.txt")
+
+    WebElement descriptionField = driver.findElement(By.name("gist[description]"))
+    descriptionField.sendKeys(description)
+
+    WebElement blobField = driver.findElement(By.cssSelector("div.CodeMirror-lines"))
+    blobField.click()
+    
 }

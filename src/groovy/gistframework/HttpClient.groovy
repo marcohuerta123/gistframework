@@ -21,7 +21,8 @@ class HttpRequest {
 
         def http = new HTTPBuilder(MYURL)
 
-        http.setProxy('localhost', 8080, 'http')
+        //This is for debugging
+        //http.setProxy('localhost', 8080, 'http')
         http.ignoreSSLIssues()
 
         http.request(method, JSON) {

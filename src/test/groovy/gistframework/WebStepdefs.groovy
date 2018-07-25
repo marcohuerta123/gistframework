@@ -64,7 +64,19 @@ And(~/I create a new Gist with description (.*)/) { String description ->
     WebElement descriptionField = driver.findElement(By.name("gist[description]"))
     descriptionField.sendKeys(description)
 
-    WebElement blobField = driver.findElement(By.cssSelector("div.CodeMirror-lines"))
+    //WebElement blobField = driver.findElement(By.ByClassName("CodeMirror-line"))
+    WebElement blobField = driver.findElement(By.ByXPath("//div@class=CodeMirror-lines"))
     blobField.click()
-    
+    blobField.sendKeys(description)
+}
+
+And(~/I delete my newly created Gist/) { ->
+
+    WebElement createGist = driver.findElement(By.xpath("//*[contains(text(),'New gist')]"))
+    createGist.click()
+
+    WebElement allGistsLink = driver.findElement(By.xpath("//a[contains(text(),'See all of your gists')]"))
+    allGistsLink.click()
+
+
 }
